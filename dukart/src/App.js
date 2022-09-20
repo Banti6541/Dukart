@@ -1,9 +1,9 @@
-
+import ListItem from "./components/ListItem";
 
 const App = () => {
   return (
     <div className="App">
-      <p>Hello world</p>
+      <ListItem></ListItem>
     </div>
   );
 }
