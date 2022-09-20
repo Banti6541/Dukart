@@ -1,9 +1,9 @@
-import ListItem from "./components/ListItem";
+import Products from "./components/Products/Products";
 
 const App = () => {
   return (
     <div className="App">
-      <ListItem></ListItem>
+      <Products></Products>
     </div>
   );
 }
