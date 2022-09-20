@@ -1,9 +1,11 @@
 import Products from "./components/Products/Products";
+import Header from "./components/Header";
 
 const App = () => {
   return (
     <div className="App">
-      <Products></Products>
+      <Header/>
+      <Products/>
     </div>
   );
 }
