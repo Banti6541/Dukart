@@ -1,14 +1,6 @@
-import AddToCartIcon from "../assets/icons/add_cart.svg"
+import AddToCartIcon from "../../../assets/icons/add_cart.svg"
 
-const ListItem = () => {
-
-    const data = {
-        dicountedPrice: 340,
-        price: 450,
-        title: "Title of the Item",
-        thumbnail: "placeholder.png"
-    }
-
+const ListItem = ({ data }) => {
     return (
         <div className={"item-card"}>
             <img className={"img-fluid"} src={`/assets/${data.thumbnail}`} alt="Some Title"></img>
