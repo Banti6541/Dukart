@@ -1,4 +1,5 @@
 import ListItem from "./ListItems/ListItem";
+import Loader from "../UI/Loader";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -28,6 +29,7 @@ const Products = () => {
     }, [])
 
 return (
+    <>
     <div className="product-list">
         <div className="product-list--wrapper">
             {
@@ -37,6 +39,8 @@ return (
             }
         </div>
     </div>
+    {/* <Loader/> */}
+    </>
 )
 }
 
