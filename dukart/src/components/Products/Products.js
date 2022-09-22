@@ -6,6 +6,7 @@ import axios from "axios";
 const Products = () => {
 
     const [items, setItems] = useState([])
+    const [loader, setLoader] = useState(true)
 
     useEffect(() => {
         async function fetchItems() {
@@ -24,6 +25,9 @@ const Products = () => {
                 console.log(error)
                 alert("Error occured")
             }
+            finally {
+                setLoader(false)
+            }
         }
         fetchItems();
     }, [])
@@ -39,7 +43,7 @@ return (
             }
         </div>
     </div>
-    {/* <Loader/> */}
+    { loader && <Loader/> }
     </>
 )
 }
