@@ -58,7 +58,11 @@ const ListItem = ({ data }) => {
                         </div>
                 }
             </div>
-            {showModal && <Modal onclose={handleModal} /> }
+            { showModal && 
+                <Modal onClose={handleModal}> 
+                    List Item Contentes
+                </Modal> 
+            }
         </Fragment>
     )
 }
