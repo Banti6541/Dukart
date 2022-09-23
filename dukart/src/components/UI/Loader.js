@@ -2,13 +2,13 @@ import  ReactDom  from "react-dom"
 
 export const BackDrop = props => {
     const handleClick = () => {
-        if(props.onClose) {
+        if( props.onClose ) {
             props.onClose();
         }
     }
 
     return (
-        <div onClick={handleClick} className="loader-overlay"></div>
+        <div onClick={ handleClick } className="loader-overlay"></div>
     )
 }
 
