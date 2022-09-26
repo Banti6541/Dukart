@@ -1,56 +1,101 @@
 import AddToCartIcon from "../../../assets/icons/add_cart.svg"
-import { useState } from "react";
+import { Fragment, useState } from "react";
+import Modal from "../../UI/Modal";
 
 const ListItem = ({ data }) => {
 
     const [counter, setCounter] = useState(0)
+    const [showModal, setShowModal] = useState(false)
 
-    const increaseCounterByOne = () => {
+    const increaseCounterByOne = event => {
+        event.stopPropagation();
         setCounter(counter + 1)
     }
 
-    const decreaseCounterByOne = () => {
-        if(counter === 0) 
-        {
+    const decreaseCounterByOne = event => {
+        event.stopPropagation();
+        if (counter === 0) {
             return;
         }
         setCounter(counter - 1)
     }
 
-    return (
-        <div className={"item-card"}>
-            <img className={"img-fluid"} src={`/assets/${data.thumbnail}`} alt="Some Title"></img>
-            
-            <div className={"item-card__information"}>
-                <div className={"pricing"}>
-                    <span>₹{data.dicountedPrice}</span>
-                    <small>
-                        <strike>{data.price}</strike>
-                    </small>
-                </div>
-                <div className={"title"}>
-                    <h3>{data.title}</h3>
-                </div>
-            </div>
+    const handleModal = () => {
+        setShowModal(previousState => !previousState)
+    }
 
-            {
-                (counter === 0) ?
-                    <button className={"cart-add"} onClick={increaseCounterByOne}>
-                        <span>Add to Cart</span>
-                        <img src={AddToCartIcon} alt="Cart Icon"></img>
-                    </button>
-                :
-                <div className={"cart-addon"}>
-                    <button onClick={decreaseCounterByOne}>
-                        <span>-</span>
-                    </button>
-                    <span>{counter}</span>
-                    <button onClick={increaseCounterByOne}>
-                        <span>+</span>
-                    </button>
+    return (
+        <Fragment>
+            <div onClick={handleModal} className={"item-card"}>
+                <img className={"img-fluid"} src={`/assets/${data.thumbnail}`} alt="Some Title"></img>
+
+                <div className={"item-card__information"}>
+                    <div className={"pricing"}>
+                        <span>₹{data.discountedPrice}</span>
+                        <small>
+                            <strike>{data.price}</strike>
+                        </small>
+                    </div>
+                    <div className={"title"}>
+                        <h3>{data.title}</h3>
+                    </div>
                 </div>
+
+                {
+                    (counter === 0) ?
+                        <button className={"cart-add"} onClick={increaseCounterByOne}>
+                            <span>Add to Cart</span>
+                            <img src={AddToCartIcon} alt="Cart Icon"></img>
+                        </button>
+                        :
+                        <div className={"cart-addon"}>
+                            <button onClick={decreaseCounterByOne}>
+                                <span>-</span>
+                            </button>
+                            <span>{counter}</span>
+                            <button onClick={increaseCounterByOne}>
+                                <span>+</span>
+                            </button>
+                        </div>
+                }
+            </div>
+            {showModal &&
+                <Modal onClose={handleModal}>
+                    <div className="item-card__modal">
+                        <div className="img-wrap">
+                            <img className={"img-fluid"} src={`/assets/${data.thumbnail}`} alt="Some Title"></img>
+                        </div>
+                        <div className="meta">
+                            <h3> {data.title} </h3>
+                            <div className={"pricing"}>
+                                <span> ₹ {data.discountedPrice} </span>
+                                <small>
+                                    <strike> {data.price} </strike>
+                                </small>
+                            </div>
+                            <p> {data.description} </p>
+                            {
+                                (counter === 0) ?
+                                    <button className={"cart-add cart-add__modal"} onClick={increaseCounterByOne}>
+                                        <span>Add to Cart</span>
+                                        <img src={AddToCartIcon} alt="Cart Icon"></img>
+                                    </button>
+                                    :
+                                    <div className={"cart-addon cart-addon__modal"}>
+                                        <button onClick={decreaseCounterByOne}>
+                                            <span>-</span>
+                                        </button>
+                                        <span>{counter}</span>
+                                        <button onClick={increaseCounterByOne}>
+                                            <span>+</span>
+                                        </button>
+                                    </div>
+                            }
+                        </div>
+                    </div>
+                </Modal>
             }
-        </div>
+        </Fragment>
     )
 }
 
