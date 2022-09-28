@@ -4,24 +4,25 @@ import Modal from "../../UI/Modal";
 
 const ListItem = ({ onAdd, onRemove, data }) => {
 
-    const [counter, setCounter] = useState(0)
+    //const [counter, setCounter] = useState(0)
     const [showModal, setShowModal] = useState(false)
 
     const increaseCounterByOne = event => {
         event.stopPropagation();
         onAdd(data.id);
-        setCounter(counter + 1)
+        //setCounter(counter + 1)
     }
 
     const decreaseCounterByOne = event => {
         event.stopPropagation();
-        if (counter === 0) {
-            return;
-        }
-        if (counter === 1) {
-            onRemove(data.id);
-        }
-        setCounter(counter - 1)
+        onRemove(data.id);
+        // if (counter === 0) {
+        //     return;
+        // }
+        // if (counter === 1) {
+        //     onRemove(data.id);
+        // }
+        //setCounter(counter - 1)
     }
 
     const handleModal = () => {
@@ -46,7 +47,7 @@ const ListItem = ({ onAdd, onRemove, data }) => {
                 </div>
 
                 {
-                    (counter === 0) ?
+                    (data.quantity === 0) ?
                         <button className={"cart-add"} onClick={increaseCounterByOne}>
                             <span>Add to Cart</span>
                             <img src={AddToCartIcon} alt="Cart Icon"></img>
@@ -56,7 +57,7 @@ const ListItem = ({ onAdd, onRemove, data }) => {
                             <button onClick={decreaseCounterByOne}>
                                 <span>-</span>
                             </button>
-                            <span>{counter}</span>
+                            <span>{data.quantity}</span>
                             <button onClick={increaseCounterByOne}>
                                 <span>+</span>
                             </button>
@@ -79,7 +80,7 @@ const ListItem = ({ onAdd, onRemove, data }) => {
                             </div>
                             <p> {data.description} </p>
                             {
-                                (counter === 0) ?
+                                (data.quantity === 0) ?
                                     <button className={"cart-add cart-add__modal"} onClick={increaseCounterByOne}>
                                         <span>Add to Cart</span>
                                         <img src={AddToCartIcon} alt="Cart Icon"></img>
@@ -89,7 +90,7 @@ const ListItem = ({ onAdd, onRemove, data }) => {
                                         <button onClick={decreaseCounterByOne}>
                                             <span>-</span>
                                         </button>
-                                        <span>{counter}</span>
+                                        <span>{data.quantity}</span>
                                         <button onClick={increaseCounterByOne}>
                                             <span>+</span>
                                         </button>
