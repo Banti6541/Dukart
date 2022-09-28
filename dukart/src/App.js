@@ -6,6 +6,10 @@ import { useState } from "react";
 const App = () => {
 
   const [cartItems, setCartItems] = useState([])
+  const [eventQueue, setEventQueue] = useState({
+    id : "",
+    type : ""
+  })
 
   const handleAddItem = item => {
     let items = [...cartItems]
@@ -37,11 +41,18 @@ const App = () => {
     //setCartItems(cartItems - 1)
   }
 
+  const handleEventQueue = (id, type) => {
+      setEventQueue({
+        id,
+        type
+      })
+  }
+
   return (
     <div className="App">
-      <Header count={ cartItems.length } items={cartItems} />
+      <Header count={ cartItems.length } items={cartItems} onHandleEvent={handleEventQueue} />
       <Subheader/>
-      <Products onAddItem={handleAddItem} onRemoveItem={handleRemoveItem} />
+      <Products onAddItem={handleAddItem} onRemoveItem={handleRemoveItem} eventState={eventQueue} />
     </div>
   );
 }

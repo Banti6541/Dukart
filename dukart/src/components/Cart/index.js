@@ -2,7 +2,7 @@ import Modal from "../UI/Modal"
 import { Fragment, useState } from "react"
 import CartItem from "./CartItem"
 
-const Cart = ({ count, items }) => {
+const Cart = ({ count, items, onHandleEvent }) => {
 
     const [showModal, setShowModal] = useState(false)
 
@@ -32,7 +32,13 @@ const Cart = ({ count, items }) => {
                             {
                                 count > 0 ?
                                     items.map(item => {
-                                        return ( <CartItem data={item} key={ item.id } /> )
+                                        return (
+                                            <CartItem 
+                                                data={item} 
+                                                onEmitDecreaseItem={id => onHandleEvent(id, -1)} 
+                                                onEmitIncreaseItem={id => onHandleEvent(id, 1)} 
+                                                key={item.id} 
+                                            />)
                                     })
                                     :
                                     <div className="empty-cart" >
@@ -49,9 +55,9 @@ const Cart = ({ count, items }) => {
                                         INR
                                         &nbsp;
                                         {
-                                            items.reduce( (previous, current) => {
+                                            items.reduce((previous, current) => {
                                                 return (previous + (current.discountedPrice * current.quantity))
-                                            }, 0 )
+                                            }, 0)
                                         }
                                     </h4>
                                 </div>
