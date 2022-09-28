@@ -3,11 +3,11 @@ import Loader from "../UI/Loader";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const Products = ({ onAddItem, onRemoveItem }) => {
+const Products = ({ onAddItem, onRemoveItem, eventState }) => {
 
     const [items, setItems] = useState([])
     const [loader, setLoader] = useState(true)
-    const [presentItems, setPresentItems] = useState([])
+    //const [presentItems, setPresentItems] = useState([])
 
     useEffect(() => {
         async function fetchItems() {
@@ -17,6 +17,7 @@ const Products = ({ onAddItem, onRemoveItem }) => {
                 const transformedData = data.map((item, index) => {
                     return {
                         ...item,
+                        quantity: 0,
                         id: index
                     }
                 })
@@ -33,23 +34,36 @@ const Products = ({ onAddItem, onRemoveItem }) => {
         fetchItems();
     }, [])
 
-    const handleAddItem = id => {
-        if(presentItems.indexOf(id) > -1)
+    useEffect( () => {
+        if(eventState.id > -1)
         {
-            return;
+            if(eventState.type === 1)
+            {
+                handleAddItem(eventState.id)
+            }
+            else if(eventState.type === -1)
+            {
+                handleRemoveItem(eventState.id)
+            }
         }
-        setPresentItems([...presentItems, id])
-        onAddItem();
+    }, [eventState] )
+
+    const handleAddItem = id => {
+        let data = [...items]
+        let index = data.findIndex(i => i.id === id)
+        data[index].quantity += 1
+        setItems([...items])
+        onAddItem(data[index])
     }
 
     const handleRemoveItem = id => {
-        let index = presentItems.indexOf(id)
-        if(index > -1)
+        let data = [...items]
+        let index = data.findIndex(i => i.id === id)
+        if(data[index].quantity !== 0)
         {
-            let items = [...presentItems]
-            items.splice(index, 1)
-            setPresentItems([...items])
-            onRemoveItem();
+            data[index].quantity -= 1
+            setItems([...items])
+            onRemoveItem(data[index])
         }
     }
 

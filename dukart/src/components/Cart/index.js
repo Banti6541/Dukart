@@ -1,12 +1,20 @@
 import Modal from "../UI/Modal"
 import { Fragment, useState } from "react"
+import CartItem from "./CartItem"
+import OrderSuccessModal from "../UI/OrderSuccess"
 
-const Cart = ({ count }) => {
+const Cart = ({ count, items, onHandleEvent }) => {
 
     const [showModal, setShowModal] = useState(false)
+    const [orderModal, setOrderModal] = useState(false)
 
     const handleModal = () => {
         setShowModal(previousState => !previousState)
+    }
+
+    const handleOrderModal = () => {
+        setShowModal(false)
+        setOrderModal(previousState => !previousState)
     }
 
     return (
@@ -30,27 +38,15 @@ const Cart = ({ count }) => {
                         <div className="checkout-modal_list" >
                             {
                                 count > 0 ?
-                                    <div className="checkout-modal_list-item" >
-                                        <div className="img-wrap" >
-                                            <img className="img-fluid" src="/assets/placeholder.png" alt="placeholder" ></img>
-                                        </div>
-                                        <div className="information" >
-                                            <div>
-                                                <h4>Title of the product</h4>
-                                                <div className="pricing" >
-                                                    <span>2000</span>
-                                                    <small>
-                                                        <strike>2500</strike>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div className="cart-addon cart-addon__modal" >
-                                                <button>+</button>
-                                                <span className="counter" >{0}</span>
-                                                <button>-</button>
-                                            </div>
-                                        </div>
-                                    </div> 
+                                    items.map(item => {
+                                        return (
+                                            <CartItem 
+                                                data={item} 
+                                                onEmitDecreaseItem={id => onHandleEvent(id, -1)} 
+                                                onEmitIncreaseItem={id => onHandleEvent(id, 1)} 
+                                                key={item.id} 
+                                            />)
+                                    })
                                     :
                                     <div className="empty-cart" >
                                         Please add some item to the cart.
@@ -62,13 +58,24 @@ const Cart = ({ count }) => {
                             <div className="checkout-modal_footer" >
                                 <div className="totalAmount" >
                                     <h4>Total Amount :</h4>
-                                    <h4>INR 2000</h4>
+                                    <h4>
+                                        INR
+                                        &nbsp;
+                                        {
+                                            items.reduce((previous, current) => {
+                                                return (previous + (current.discountedPrice * current.quantity))
+                                            }, 0)
+                                        }
+                                    </h4>
                                 </div>
-                                <button>Order Now</button>
+                                <button onClick={handleOrderModal} >Order Now</button>
                             </div>
                         }
                     </div>
                 </Modal>
+            }
+            {
+                orderModal && <OrderSuccessModal onClose={ handleOrderModal } />
             }
         </Fragment>
     )
